@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "LaundryOS API",
+    "description": "Mini Laundry Order Management System - Full API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{ "key": "base", "value": "http://localhost:3001/api" }],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": { "method": "GET", "url": "http://localhost:3001/health" }
+    },
+    {
+      "name": "Get Price Catalog",
+      "request": { "method": "GET", "url": "{{base}}/catalog" }
+    },
+    {
+      "name": "Create Order - Shirts & Jeans",
+      "request": {
+        "method": "POST", "url": "{{base}}/orders",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"customerName\": \"Arjun Sharma\",\n  \"phone\": \"9876543210\",\n  \"garments\": [\n    { \"type\": \"shirt\", \"qty\": 3 },\n    { \"type\": \"jeans\", \"qty\": 2 }\n  ]\n}" }
+      }
+    },
+    {
+      "name": "Create Order - Saree & Suit",
+      "request": {
+        "method": "POST", "url": "{{base}}/orders",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"customerName\": \"Priya Patel\",\n  \"phone\": \"9123456780\",\n  \"garments\": [\n    { \"type\": \"saree\", \"qty\": 2 },\n    { \"type\": \"suit\", \"qty\": 1 },\n    { \"type\": \"towel\", \"qty\": 4 }\n  ]\n}" }
+      }
+    },
+    {
+      "name": "Create Order - Custom Price",
+      "request": {
+        "method": "POST", "url": "{{base}}/orders",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"customerName\": \"Vikram Singh\",\n  \"phone\": \"9988776655\",\n  \"garments\": [\n    { \"type\": \"blanket\", \"qty\": 2, \"pricePerItem\": 180 },\n    { \"type\": \"curtain\", \"qty\": 6 }\n  ]\n}" }
+      }
+    },
+    {
+      "name": "Create Order - Validation Error",
+      "request": {
+        "method": "POST", "url": "{{base}}/orders",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"customerName\": \"\",\n  \"phone\": \"123\",\n  \"garments\": []\n}" }
+      }
+    },
+    {
+      "name": "List All Orders",
+      "request": { "method": "GET", "url": "{{base}}/orders" }
+    },
+    {
+      "name": "Filter - Status RECEIVED",
+      "request": { "method": "GET", "url": "{{base}}/orders?status=RECEIVED" }
+    },
+    {
+      "name": "Filter - Status PROCESSING",
+      "request": { "method": "GET", "url": "{{base}}/orders?status=PROCESSING" }
+    },
+    {
+      "name": "Filter - Status READY",
+      "request": { "method": "GET", "url": "{{base}}/orders?status=READY" }
+    },
+    {
+      "name": "Filter - Status DELIVERED",
+      "request": { "method": "GET", "url": "{{base}}/orders?status=DELIVERED" }
+    },
+    {
+      "name": "Filter - By Customer Name",
+      "request": { "method": "GET", "url": "{{base}}/orders?name=arjun" }
+    },
+    {
+      "name": "Filter - By Phone",
+      "request": { "method": "GET", "url": "{{base}}/orders?phone=9876" }
+    },
+    {
+      "name": "Filter - By Garment Type",
+      "request": { "method": "GET", "url": "{{base}}/orders?garmentType=shirt" }
+    },
+    {
+      "name": "Filter - Combined",
+      "request": { "method": "GET", "url": "{{base}}/orders?status=PROCESSING&name=arjun" }
+    },
+    {
+      "name": "Filter - Pagination",
+      "request": { "method": "GET", "url": "{{base}}/orders?page=1&limit=2" }
+    },
+    {
+      "name": "Get Single Order",
+      "request": { "method": "GET", "url": "{{base}}/orders/ORD-001" }
+    },
+    {
+      "name": "Update Status → PROCESSING",
+      "request": {
+        "method": "PATCH", "url": "{{base}}/orders/ORD-001/status",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{ \"status\": \"PROCESSING\" }" }
+      }
+    },
+    {
+      "name": "Update Status → READY",
+      "request": {
+        "method": "PATCH", "url": "{{base}}/orders/ORD-001/status",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{ \"status\": \"READY\" }" }
+      }
+    },
+    {
+      "name": "Update Status → DELIVERED",
+      "request": {
+        "method": "PATCH", "url": "{{base}}/orders/ORD-001/status",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{ \"status\": \"DELIVERED\" }" }
+      }
+    },
+    {
+      "name": "Update Status - Revert (Should 400)",
+      "request": {
+        "method": "PATCH", "url": "{{base}}/orders/ORD-001/status",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{ \"status\": \"RECEIVED\" }" }
+      }
+    },
+    {
+      "name": "Cancel Order (RECEIVED only)",
+      "request": { "method": "DELETE", "url": "{{base}}/orders/ORD-002" }
+    },
+    {
+      "name": "Dashboard",
+      "request": { "method": "GET", "url": "{{base}}/dashboard" }
+    }
+  ]
+}
